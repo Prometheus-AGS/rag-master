@@ -1,26 +1,53 @@
-# Prometheus Bolt Template
+# RAG Master
 
-A professional, production-ready React + Tauri template designed for AI-powered development workflows. This template provides a modern foundation for building cross-platform applications with React 19, Vite 6, and Tauri 2, optimized for use with AI development tools like the Prometheus AI platform and Bolt.diy.
+**Enterprise-Grade Knowledge Base Management Platform**
 
-## 🚀 Bolt.diy Compatible
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/your-org/rag-master)
+[![Version](https://img.shields.io/badge/version-0.0.0-blue)](https://github.com/your-org/rag-master/releases)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2.2-blue)](https://www.typescriptlang.org/)
 
-This template is **fully compatible** with [Bolt.diy](https://bolt.diy) webcontainer environments! Deploy and develop instantly in your browser with zero setup required.
+RAG Master is a comprehensive knowledge base management platform that enables organizations to create, manage, and query intelligent document repositories. Built with modern web technologies and designed for enterprise-scale deployments, it provides multi-tenant support, advanced document processing capabilities, and flexible retrieval strategies for optimal information extraction.
 
-[![Deploy to Bolt.diy](https://img.shields.io/badge/Deploy%20to-Bolt.diy-blue?style=for-the-badge&logo=stackblitz)](https://bolt.diy)
+## 🏗️ Architecture Overview
 
-### One-Click Deployment
-1. Open [Bolt.diy](https://bolt.diy) in your browser
-2. Import this template or paste the repository URL
-3. Start coding immediately with full hot-reload support
-4. All dependencies work seamlessly in the webcontainer environment
+RAG Master follows a modern, scalable architecture designed for enterprise deployment across multiple platforms:
 
-### Webcontainer Optimizations
-- **Pure JavaScript dependencies** - No native modules that break in webcontainers
-- **Tailwind CSS v3** - Optimized for browser-based build environments
-- **Standard PostCSS processing** - Compatible with webcontainer limitations
-- **Optimized bundle sizes** - Fast loading in browser environments
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Backend API   │    │   Database      │
+│   (React/TS)    │◄──►│   (Node.js)     │◄──►│   (Supabase)    │
+│                 │    │                 │    │   PostgreSQL    │
+│   - Dashboard   │    │   - Auth        │    │   + pgvector    │
+│   - KB Mgmt     │    │   - Document    │    │                 │
+│   - Config UI   │    │   - Processing  │    │                 │
+│   - Analytics   │    │   - Retrieval   │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         │              ┌─────────────────┐              │
+         │              │   File Storage  │              │
+         └──────────────►│   (Supabase)    │◄─────────────┘
+                        │   Storage       │
+                        └─────────────────┘
+                                 │
+                        ┌─────────────────┐
+                        │   Vector Store  │
+                        │   (pgvector)    │
+                        │                 │
+                        │   Embedding     │
+                        │   Providers:    │
+                        │   - OpenAI      │
+                        │   - Cohere      │
+                        │   - Local       │
+                        └─────────────────┘
+```
 
-> 📖 **Detailed Technical Information**: See [`docs/bolt-diy-compatibility.md`](docs/bolt-diy-compatibility.md) for comprehensive technical details about webcontainer compatibility.
+### Multi-Platform Support
+
+- **Web Application**: React 19 + Vite 6 for modern web deployment
+- **Desktop Application**: Tauri 2 for native Windows, macOS, and Linux apps
+- **Mobile Ready**: Responsive design optimized for mobile devices
+- **API-First**: RESTful endpoints for seamless integration with external applications
 
 ## 🚀 Quick Start
 
@@ -28,18 +55,23 @@ This template is **fully compatible** with [Bolt.diy](https://bolt.diy) webconta
 
 - [Node.js](https://nodejs.org/) (v18 or higher)
 - [Yarn](https://yarnpkg.com/) (v4.9.2 or higher)
-- [Rust](https://rustup.rs/) (latest stable)
-- [Tauri CLI](https://tauri.app/v1/guides/getting-started/prerequisites)
+- [Rust](https://rustup.rs/) (latest stable, for desktop builds)
+- [Tauri CLI](https://tauri.app/v1/guides/getting-started/prerequisites) (for desktop development)
+- [Supabase Account](https://supabase.com/) (for database and storage)
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd prometheus-bolt-template
+git clone https://github.com/your-org/rag-master.git
+cd rag-master
 
 # Install dependencies
 yarn install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your Supabase credentials and API keys
 
 # Start development server (web only)
 yarn dev
@@ -48,63 +80,116 @@ yarn dev
 yarn dev:tauri
 ```
 
-### Build for Production
+### Environment Configuration
+
+Create a `.env` file with the following variables:
 
 ```bash
-# Build web application
-yarn build
+# Supabase Configuration
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-# Build desktop application
-yarn build:tauri
+# Embedding Providers
+VITE_OPENAI_API_KEY=your_openai_api_key
+VITE_COHERE_API_KEY=your_cohere_api_key
+
+# Application Settings
+VITE_APP_NAME=RAG Master
+VITE_API_URL=http://localhost:3000
 ```
 
-## 📋 Technology Stack
-
-This template uses a carefully curated modern stack:
+## 🛠️ Technology Stack
 
 ### Frontend
 - **React 19** - Latest React with concurrent features and server components support
 - **Vite 6** - Ultra-fast development server and build tool
-- **TypeScript 5.8.3** - Full type safety with strict configuration
-- **Tailwind CSS 3.4.0** - Utility-first CSS framework optimized for webcontainer compatibility
-
-### UI & Components
+- **TypeScript 5.2.2** - Full type safety with strict configuration
+- **Tailwind CSS 3.4.0** - Utility-first CSS framework
 - **Shadcn-UI** - Professional, accessible UI components built on Radix UI
-- **Lucide React** - Beautiful, customizable icons
-- **Tailwind CSS Animate** - Smooth animations and transitions
-
-### State Management & Validation
 - **Zustand** - Lightweight, flexible state management
 - **Zod** - TypeScript-first schema validation
 - **React Hook Form** - Performant forms with easy validation
 
-### Desktop & Mobile
+### Backend & Database
+- **Supabase** - Backend-as-a-Service with PostgreSQL 15+
+- **pgvector** - Vector similarity search extension
+- **Row Level Security (RLS)** - Database-level security policies
+- **Real-time subscriptions** - Live data synchronization
+
+### Desktop & Cross-Platform
 - **Tauri 2** - Build native desktop applications with Rust backend
 - **Cross-platform support** - Windows, macOS, and Linux
+- **Native OS integration** - File system access, notifications, system tray
 
-### AI Integration
-- **CoPilotKit** - Ready for AI-powered features and chatbots
-- **Optimized for AI development** - Structured for natural language programming
+### AI & Processing
+- **Multiple embedding providers** - OpenAI, Cohere, local models
+- **Configurable chunking strategies** - Semantic, fixed-size, recursive, sentence-based
+- **Flexible retrieval methods** - Vector similarity, hybrid search, keyword matching
+- **Real-time processing** - Background job queues for document processing
+
+## 📋 Core Features
+
+### Knowledge Base Management
+- **Multi-tenant architecture** with organization-level isolation
+- **CRUD operations** for knowledge bases with role-based access control
+- **Configurable processing pipelines** for different document types
+- **Real-time collaboration** with live updates and notifications
+
+### Document Processing
+- **Multi-format support**: PDF, DOCX, TXT, MD, HTML
+- **Intelligent chunking strategies**:
+  - Semantic chunking based on content structure
+  - Fixed-size chunking with configurable overlap
+  - Recursive character splitting for optimal context
+  - Sentence-based chunking for natural language processing
+- **Metadata extraction** and custom schema generation
+- **Version control** and document history tracking
+
+### Retrieval & Search
+- **Vector similarity search** using pgvector for semantic matching
+- **Hybrid search** combining vector and keyword approaches
+- **Re-ranking algorithms** for improved result relevance
+- **Configurable retrieval strategies** per knowledge base
+- **Real-time search** with sub-200ms response times
+
+### API Integration
+- **RESTful API endpoints** for all operations
+- **API key management** with scoped permissions
+- **Webhook support** for real-time integrations
+- **Rate limiting** and usage analytics
+- **OpenAPI specification** with interactive documentation
 
 ## 🏗️ Project Structure
 
 ```
-prometheus-bolt-template/
+rag-master/
 ├── src/                          # React application source
 │   ├── components/
-│   │   └── ui/                   # Shadcn-UI components
+│   │   ├── ui/                   # Shadcn-UI components
+│   │   ├── auth/                 # Authentication components
+│   │   ├── dashboard/            # Dashboard and analytics
+│   │   ├── knowledge-base/       # KB management components
+│   │   ├── documents/            # Document upload and management
+│   │   └── layout/               # Layout and navigation
 │   ├── hooks/                    # Custom React hooks
-│   ├── lib/                      # Utility functions
-│   ├── App.tsx                   # Main application component
-│   └── main.tsx                  # Application entry point
+│   ├── stores/                   # Zustand state management
+│   ├── lib/                      # Utility functions and configurations
+│   ├── types/                    # TypeScript type definitions
+│   └── App.tsx                   # Main application component
 ├── src-tauri/                    # Tauri (Rust) backend
 │   ├── src/
 │   │   ├── main.rs              # Tauri application entry
 │   │   └── lib.rs               # Rust backend logic
 │   ├── Cargo.toml               # Rust dependencies
 │   └── tauri.conf.json          # Tauri configuration
-├── .kilocode/                    # Development rules and guidelines
-│   └── rules/                    # Coding standards and best practices
+├── supabase/                     # Database schema and migrations
+│   ├── migrations/              # SQL migration files
+│   ├── seed.sql                 # Initial data seeding
+│   └── config.toml              # Supabase configuration
+├── docs/                         # Documentation
+│   ├── technical-specification.md
+│   ├── api-documentation.md
+│   └── deployment-guide.md
 ├── public/                       # Static assets
 ├── package.json                  # Node.js dependencies and scripts
 ├── vite.config.ts               # Vite configuration
@@ -113,7 +198,7 @@ prometheus-bolt-template/
 └── components.json              # Shadcn-UI configuration
 ```
 
-## 🛠️ Development Workflow
+## 🔧 Development Workflow
 
 ### Available Scripts
 
@@ -127,6 +212,16 @@ yarn preview          # Preview production build
 yarn build            # Build web application for production
 yarn build:tauri      # Build desktop application
 
+# Database
+yarn db:generate      # Generate database types
+yarn db:migrate       # Run database migrations
+yarn db:seed          # Seed database with initial data
+
+# Code Quality
+yarn lint             # Run ESLint
+yarn type-check       # Run TypeScript compiler check
+yarn format           # Format code with Prettier
+
 # Tauri specific
 yarn tauri            # Access Tauri CLI commands
 ```
@@ -134,196 +229,398 @@ yarn tauri            # Access Tauri CLI commands
 ### Development Server
 
 The development server runs on `http://localhost:1420` with:
-- Hot Module Replacement (HMR)
-- TypeScript compilation
-- Tailwind CSS processing
-- Automatic browser refresh
+- **Hot Module Replacement (HMR)** for instant updates
+- **TypeScript compilation** with strict type checking
+- **Tailwind CSS processing** with JIT compilation
+- **Automatic browser refresh** on file changes
 
-### Tauri Development
+### Database Development
 
-When running `yarn dev:tauri`:
-- Rust backend compiles automatically
-- Frontend hot-reloads in desktop window
-- Native OS integration available
-- Debug tools accessible
+```bash
+# Set up Supabase locally
+npx supabase start
 
-## 🎯 Architecture Overview
+# Create new migration
+npx supabase migration new migration_name
 
-### Monorepo Structure
+# Apply migrations
+npx supabase db push
 
-This template follows a monorepo pattern where:
-- **Web and Desktop apps share the same React codebase**
-- **Rust backend serves as the proxy to external services**
-- **All UI components are reusable across platforms**
-- **State management is centralized and platform-agnostic**
+# Generate TypeScript types
+npx supabase gen types typescript --local > src/types/database.ts
+```
 
-### Clean Architecture Principles
+## 🗄️ Database Schema
 
-The codebase follows CLEAN architecture patterns:
-- **Separation of concerns** between UI, business logic, and data
-- **Dependency inversion** with interfaces and abstractions
-- **Modular design** with clear boundaries between layers
-- **Testable components** with minimal external dependencies
+### Core Tables
 
-### TypeScript Configuration
+#### Organizations (Multi-tenancy)
+```sql
+CREATE TABLE organizations (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  slug text UNIQUE NOT NULL,
+  settings jsonb DEFAULT '{}',
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+```
 
-Strict TypeScript setup with:
-- **No `any` types** - Explicit typing required
-- **Path aliases** for clean imports (`@/components`, `@/hooks`, etc.)
-- **Strict mode enabled** with comprehensive linting
-- **Component isolation** - No direct store access from components
+#### Knowledge Bases
+```sql
+CREATE TABLE knowledge_bases (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id uuid REFERENCES organizations(id) NOT NULL,
+  name text NOT NULL,
+  description text,
+  chunking_strategy jsonb DEFAULT '{"type": "recursive", "chunk_size": 1000, "overlap": 200}',
+  retrieval_config jsonb DEFAULT '{"strategy": "vector", "top_k": 5}',
+  embedding_provider text DEFAULT 'openai',
+  embedding_model text DEFAULT 'text-embedding-3-small',
+  created_by uuid REFERENCES user_profiles(id),
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+```
 
-## 📐 Development Rules & Guidelines
+#### Documents & Chunks
+```sql
+CREATE TABLE documents (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  knowledge_base_id uuid REFERENCES knowledge_bases(id) NOT NULL,
+  filename text NOT NULL,
+  file_type text NOT NULL,
+  file_size bigint NOT NULL,
+  storage_path text NOT NULL,
+  content_hash text NOT NULL,
+  metadata jsonb DEFAULT '{}',
+  processing_status document_status DEFAULT 'pending',
+  created_at timestamptz DEFAULT now()
+);
 
-This template includes a comprehensive rule system in `.kilocode/rules/` that enforces:
+CREATE TABLE document_chunks (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  document_id uuid REFERENCES documents(id) ON DELETE CASCADE,
+  knowledge_base_id uuid REFERENCES knowledge_bases(id) NOT NULL,
+  chunk_index integer NOT NULL,
+  content text NOT NULL,
+  metadata jsonb DEFAULT '{}',
+  embedding vector(1536), -- OpenAI embedding dimension
+  created_at timestamptz DEFAULT now()
+);
 
-### TypeScript Rules
-- No use of `any` type explicitly or implicitly
-- Strongly typed properties and function parameters only
-- Components must not talk directly to stores—only to hooks
+-- Vector similarity index
+CREATE INDEX ON document_chunks USING ivfflat (embedding vector_cosine_ops);
+```
 
-### Rust Rules
-- Keep functions short and concise (10-30 lines max)
-- Thoughtful error handling with `match`, `if let`, or `?` operator
-- Avoid `unwrap()` and `expect()` in production code
-- Validate APIs with external sources before implementation
+### Row Level Security (RLS)
 
-### UI/UX Guidelines
-- Simple, elegant, flat interfaces
-- Mobile and desktop responsive design
-- Meaningful animations for user guidance
-- Consistent design system with Shadcn-UI
+```sql
+-- Organizations: Users can only access their organization
+CREATE POLICY "Users can access own organization" ON organizations
+  FOR ALL TO authenticated
+  USING (id IN (
+    SELECT organization_id FROM user_profiles 
+    WHERE id = auth.uid()
+  ));
 
-### Code Organization
-- Files under 500 lines maximum
-- Modular, maintainable structure
-- Descriptive naming conventions
-- Clean architecture patterns
+-- Knowledge Bases: Organization-scoped access
+CREATE POLICY "Organization members can manage knowledge bases" ON knowledge_bases
+  FOR ALL TO authenticated
+  USING (organization_id IN (
+    SELECT organization_id FROM user_profiles 
+    WHERE id = auth.uid()
+  ));
+```
 
-### Database & Data Modeling
-- UUID primary keys for all entities
-- Metadata-driven models with JSON Schema validation
-- PostgreSQL JSONB for flexible schema evolution
-- Row-level security (RLS) policies
+## 🔌 API Integration
 
-## 🤖 AI-Powered Development
+### Authentication
 
-This template is specifically designed for AI-assisted development:
+```typescript
+// POST /auth/login
+interface LoginRequest {
+  email: string;
+  password: string;
+}
 
-### Optimized for Natural Language Programming
-- Clear, semantic code structure
-- Comprehensive type definitions
-- Well-documented components and functions
-- Consistent patterns recognizable by AI
+interface LoginResponse {
+  user: User;
+  session: Session;
+  organization: Organization;
+}
+```
 
-### Integration with AI Tools
-- **Prometheus AI Platform** - Advanced AI development environment
-- **Bolt.diy** - Natural language to code generation with full webcontainer compatibility
-- **CoPilotKit** - In-app AI features and chatbots
-- **Context-aware development** - MCP server integration
+### Knowledge Base Management
 
-> 🔧 **Webcontainer Compatibility**: This template is fully optimized for bolt.diy's webcontainer environment. See [`docs/bolt-diy-compatibility.md`](docs/bolt-diy-compatibility.md) for technical details.
+```typescript
+// GET /api/v1/knowledge-bases
+interface GetKnowledgeBasesResponse {
+  data: KnowledgeBase[];
+  pagination: PaginationMeta;
+}
 
-### AI-Friendly Rust Code
-- Prioritize simplicity and clarity over cleverness
-- Comprehensive error handling patterns
-- Explicit type annotations
-- Standard layouts and conventions
+// POST /api/v1/knowledge-bases
+interface CreateKnowledgeBaseRequest {
+  name: string;
+  description?: string;
+  chunkingStrategy: ChunkingConfig;
+  retrievalConfig: RetrievalConfig;
+  embeddingProvider: 'openai' | 'cohere' | 'local';
+}
+```
 
-## 🚀 Deployment
+### Document Operations
 
-### Web Deployment
+```typescript
+// POST /api/v1/knowledge-bases/:id/documents
+interface UploadDocumentRequest {
+  files: File[];
+  metadata?: Record<string, any>;
+}
+
+// POST /api/v1/knowledge-bases/:id/search
+interface SearchRequest {
+  query: string;
+  strategy?: 'vector' | 'hybrid' | 'keyword';
+  topK?: number;
+  filters?: SearchFilters;
+  rerank?: boolean;
+}
+
+interface SearchResponse {
+  results: SearchResult[];
+  metadata: SearchMetadata;
+  performance: PerformanceMetrics;
+}
+```
+
+### API Key Management
+
+```bash
+# Generate API key
+curl -X POST https://your-domain.com/api/v1/api-keys \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Production Integration",
+    "permissions": ["read", "write"],
+    "expires_at": "2024-12-31T23:59:59Z"
+  }'
+
+# Use API key
+curl -X GET https://your-domain.com/api/v1/knowledge-bases \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+## 🚀 Building & Deployment
+
+### Web Application
+
+```bash
+# Development build
+yarn build
+
+# Production optimization
+yarn build --mode production
+
+# Preview production build
+yarn preview
+```
+
 The built web application (`dist/` folder) can be deployed to:
-- Vercel, Netlify, or similar static hosting
-- AWS S3 + CloudFront
-- Any web server supporting SPA routing
+- **Vercel, Netlify** - Static hosting with serverless functions
+- **AWS S3 + CloudFront** - Global CDN distribution
+- **Docker containers** - Containerized deployment
+- **Any web server** supporting SPA routing
 
-### Desktop Distribution
-Tauri applications can be distributed as:
+### Desktop Application
+
+```bash
+# Build for current platform
+yarn build:tauri
+
+# Build for specific platforms
+yarn tauri build --target x86_64-pc-windows-msvc  # Windows
+yarn tauri build --target x86_64-apple-darwin     # macOS Intel
+yarn tauri build --target aarch64-apple-darwin    # macOS Apple Silicon
+yarn tauri build --target x86_64-unknown-linux-gnu # Linux
+```
+
+Desktop applications are distributed as:
 - **Windows**: `.msi` installer or `.exe` executable
 - **macOS**: `.dmg` disk image or `.app` bundle
 - **Linux**: `.deb`, `.rpm`, or `.AppImage` packages
 
-### Build Configuration
-- Production builds are optimized and minified
-- Desktop apps include auto-updater capability
-- Code signing available for distribution
+### Configuration
 
-## 🔧 Configuration
+#### Tauri Configuration
 
-### Environment Variables
-Create `.env` files for environment-specific configuration:
+Modify [`src-tauri/tauri.conf.json`](src-tauri/tauri.conf.json) for:
 
-```bash
-# .env.local
-VITE_API_URL=http://localhost:3000
-VITE_APP_NAME=My Application
+```json
+{
+  "productName": "RAG Master",
+  "version": "1.0.0",
+  "identifier": "com.ragmaster.app",
+  "app": {
+    "windows": [
+      {
+        "title": "RAG Master",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 800,
+        "minHeight": 600
+      }
+    ]
+  }
+}
 ```
 
-### Tauri Configuration
-Modify `src-tauri/tauri.conf.json` for:
-- Application metadata (name, version, identifier)
-- Window properties (size, title, permissions)
-- Build targets and bundle settings
-- Security policies and CSP rules
+#### Environment Variables
 
-### Tailwind Customization
-Extend `tailwind.config.ts` for:
-- Custom color schemes and themes
-- Typography and spacing scales
-- Component-specific styles
-- Animation and transition effects
+```bash
+# Production environment
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your_production_anon_key
+VITE_API_URL=https://api.ragmaster.com
+VITE_APP_ENV=production
+```
 
 ## 🧪 Testing
 
-### Recommended Testing Stack
+### Testing Stack
+
 ```bash
 # Add testing dependencies
 yarn add -D vitest @testing-library/react @testing-library/jest-dom
+yarn add -D @testing-library/user-event jsdom
 ```
 
 ### Test Structure
+
 ```
 src/
 ├── components/
-│   ├── Button.tsx
+│   ├── KnowledgeBaseCard.tsx
 │   └── __tests__/
-│       └── Button.test.tsx
+│       └── KnowledgeBaseCard.test.tsx
 ├── hooks/
-│   ├── useCounter.ts
+│   ├── useKnowledgeBases.ts
 │   └── __tests__/
-│       └── useCounter.test.ts
+│       └── useKnowledgeBases.test.ts
+└── lib/
+    ├── api.ts
+    └── __tests__/
+        └── api.test.ts
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+yarn test
+
+# Run tests in watch mode
+yarn test:watch
+
+# Run tests with coverage
+yarn test:coverage
+
+# Run specific test file
+yarn test KnowledgeBaseCard.test.tsx
+```
+
+## 🔒 Security & Compliance
+
+### Security Features
+
+- **Row Level Security (RLS)** - Database-level access control
+- **API rate limiting** - Prevent abuse and ensure fair usage
+- **Input validation** - Zod schemas for all user inputs
+- **CORS configuration** - Secure cross-origin resource sharing
+- **Content Security Policy (CSP)** - XSS protection
+- **Secure file uploads** - Virus scanning and type validation
+
+### Compliance
+
+- **GDPR compliance** - Data protection and user rights
+- **SOC 2 Type II** - Security and availability controls
+- **Data retention policies** - Automated cleanup and archival
+- **Audit logging** - Comprehensive activity tracking
+
+## 📊 Performance & Monitoring
+
+### Performance Targets
+
+- **API response time**: < 200ms (95th percentile)
+- **Document processing**: < 30 seconds per MB
+- **Search accuracy**: > 85% relevance score
+- **System uptime**: > 99.9%
+
+### Monitoring
+
+```bash
+# Application performance monitoring
+yarn add @sentry/react @sentry/tracing
+
+# Custom metrics and dashboards
+yarn add @supabase/realtime-js
 ```
 
 ## 🤝 Contributing
 
 ### Development Guidelines
-1. Follow the established rule system in `.kilocode/rules/`
-2. Maintain TypeScript strict mode compliance
-3. Keep components under 500 lines
-4. Use semantic commit messages
-5. Test changes across web and desktop platforms
+
+1. **Follow TypeScript strict mode** - No `any` types allowed
+2. **Component isolation** - No direct store access from components
+3. **File size limits** - Keep files under 500 lines
+4. **Testing requirements** - Unit tests for all new features
+5. **Code quality** - ESLint and Prettier compliance
 
 ### Code Quality
-- ESLint and Prettier configuration included
-- Pre-commit hooks for code formatting
-- TypeScript strict mode enforced
-- Component and hook testing recommended
 
-## 📚 Learning Resources
+```bash
+# Pre-commit hooks
+yarn add -D husky lint-staged
 
-### Documentation
+# Code formatting
+yarn format
+
+# Type checking
+yarn type-check
+
+# Linting
+yarn lint --fix
+```
+
+### Pull Request Process
+
+1. Create feature branch from `main`
+2. Implement changes with tests
+3. Run full test suite and linting
+4. Update documentation if needed
+5. Submit PR with clear description
+6. Address review feedback
+7. Merge after approval
+
+## 📚 Documentation
+
+### Additional Resources
+
+- [Technical Specification](docs/technical-specification.md) - Comprehensive system design
+- [API Documentation](docs/api-documentation.md) - Complete API reference
+- [Deployment Guide](docs/deployment-guide.md) - Production deployment instructions
+- [Contributing Guide](CONTRIBUTING.md) - Development workflow and standards
+
+### External Documentation
+
 - [React 19 Documentation](https://react.dev/)
 - [Vite Guide](https://vitejs.dev/guide/)
 - [Tauri Documentation](https://tauri.app/)
+- [Supabase Documentation](https://supabase.com/docs)
 - [Shadcn-UI Components](https://ui.shadcn.com/)
 - [Zustand Documentation](https://zustand-demo.pmnd.rs/)
-
-### AI Development
-- [Prometheus AI Platform](https://prometheus.ai/)
-- [Bolt.diy Documentation](https://bolt.diy/)
-- [CoPilotKit Guide](https://copilotkit.ai/)
-- [Webcontainer Compatibility Guide](docs/bolt-diy-compatibility.md) - Technical details for bolt.diy development
 
 ## 🆘 Troubleshooting
 
@@ -333,6 +630,7 @@ src/
 ```bash
 # Ensure Rust is installed and up to date
 rustup update
+rustup target add x86_64-pc-windows-msvc  # For Windows builds
 ```
 
 **TypeScript errors:**
@@ -340,40 +638,37 @@ rustup update
 # Clear TypeScript cache
 rm -rf node_modules/.cache
 yarn install
+yarn type-check
 ```
 
-**Vite dev server issues:**
+**Database connection issues:**
 ```bash
-# Clear Vite cache
-rm -rf node_modules/.vite
-yarn dev
+# Check Supabase configuration
+npx supabase status
+npx supabase db reset  # Reset local database
 ```
 
-**Webcontainer/Bolt.diy issues:**
+**Vector search performance:**
 ```bash
-# Dependency installation fails
-# Check if dependency has native modules - see docs/bolt-diy-compatibility.md
-
-# Build fails in webcontainer
-# Ensure all dependencies are pure JavaScript
-# Check PostCSS configuration is correct
-
-# Hot reload not working
-# Refresh the browser tab in bolt.diy
-# Check browser console for errors
+# Optimize pgvector indexes
+-- In your Supabase SQL editor
+REINDEX INDEX document_chunks_embedding_idx;
+ANALYZE document_chunks;
 ```
 
 ### Getting Help
-- Check the [Tauri Discord](https://discord.com/invite/tauri)
-- Review [React GitHub Discussions](https://github.com/facebook/react/discussions)
-- Consult [Vite GitHub Issues](https://github.com/vitejs/vite/issues)
+
+- **GitHub Issues** - Bug reports and feature requests
+- **Discussions** - Community support and questions
+- **Documentation** - Comprehensive guides and API reference
+- **Discord Community** - Real-time chat and support
 
 ## 📄 License
 
-This template is created by **Prometheus Agentic Growth Solutions** for the Prometheus AI platform and Bolt.diy ecosystem.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-**Ready to build the future with AI-powered development?** 🚀
+**Ready to transform your knowledge management?** 🚀
 
-Start with this template in the Prometheus AI platform, Bolt.diy, or clone it locally to begin building production-ready applications with natural language programming.
+RAG Master provides enterprise-grade document processing and intelligent retrieval capabilities with a modern, developer-friendly architecture. Start building intelligent knowledge bases today with our comprehensive API and multi-platform support.

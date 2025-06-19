@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "prometheus-bolt-template",
+  "productName": "RAG Master",
   "version": "0.1.0",
-  "identifier": "ai.prometheusags.bolt-app",
+  "identifier": "com.ragmaster.app",
   "build": {
     "beforeDevCommand": "yarn dev",
     "devUrl": "http://localhost:1420",
@@ -12,9 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "prometheus-bolt-template",
-        "width": 800,
-        "height": 600
+        "title": "RAG Master",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 800,
+        "minHeight": 600
       }
     ],
     "security": {
