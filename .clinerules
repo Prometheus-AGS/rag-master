@@ -1,0 +1,111 @@
+# Project Guidelines
+
+## Project Configuration
+
+1. Yarn is the package manager for this project
+
+## Technology Stack
+
+1. The stack for all applications in this project is:
+   - React 19
+   - Vite 6
+   - Zustand
+   - Zod
+   - Shadcn-UI for User Interface
+
+2. This is a monorepo where ALL applications share code:
+   - Mobile and Desktop using Tauri
+   - Web using React/Vite
+   - All backend code is in Rust which is the proxy to the outside world
+
+## TypeScript Rules
+
+1. No use of `any` type explicitly or implicitly
+2. Strongly typed properties and function parameters only
+3. Strict rule of no components talk directly to stores--only to hooks that set up and talk to the stores on their behalf
+
+## Rust Language Rules
+
+1. Follow all Rust best practices
+2. Keep code short and concise--between 10 and 30 lines max
+3. A good policy regarding the use of `into()` and `unwrap()` in Rust is to use them thoughtfully, considering clarity, safety, and production-readiness.
+
+   For `unwrap()`:
+   - Avoid using `unwrap()` (and `expect()`) in production code, as it can cause your program to panic at runtime if called on an `Err` or `None` value
+   - Instead, prefer explicit error handling using `match`, `if let`, combinators like `unwrap_or`, `unwrap_or_else`, or propagating errors with the `?` operator
+   - Reserve `unwrap()` and `expect()` for scenarios where you are absolutely certain a value cannot fail, but always document your reasoning
+
+   For `into()`:
+   - Using `.into()` is generally safe as it's used for type conversions and helps make your code concise and generic
+   - Ensure conversions with `.into()` are explicit and clear to readers, especially when the target type is not obvious from context
+
+4. ALWAYS check with the context mcp server and check the web using the tavily mcp server to get the latest APIs and information before finalizing code generation
+5. Check every bug fix twice for syntax and other errors
+6. Always check for existing types that might do the job you need before creating new types
+7. Always favor the simpler code solution, because Rust can be overly verbose
+
+## Guidelines for AI-Friendly Rust Code
+
+1. Prioritize Simplicity and Clarity Over Cleverness
+2. Use Comprehensive and Standard Error Handling
+3. Leverage Type Annotations Explicitly Where Appropriate
+4. Structure Code with Standard Layouts and Conventions
+5. Minimize `unsafe` and Manual Memory Management
+6. Write and Maintain Comments and Docstrings
+7. Ensure Code Is Lint- and Format-Clean with Tools
+8. Prefer Stable, Well-Documented Features and APIs
+9. Adopt Test-Driven Development and Include Examples
+10. Break problems into clear subproblems when working with AI
+
+## UI/UX Rules
+
+1. Always refer to documents contained in the `docs/*` directory when generating code for new features or functions, because the latest specs will always be there
+
+2. When generating code for a new view, always use the tavily web search mcp server to research the best UI design for that window based on the standards in the `docs/*` directory to get the best UI/UX
+
+3. Favor simple, elegant, flat interfaces with no borders and differentiation of selections, etc. made by subtle shading and background color changes
+
+4. Always ensure EVERY view generated has a mobile and a desktop version
+
+5. Always look to include meaningful animations where appropriate to show direction of movement, ensure proper focus, and instruct the user on the relationships between things on the screen and their purpose
+
+## Database and Data Modeling Rules
+
+1. When the prompt contains "GENERATE_META_MODEL" or "CREATE_META_ENTITY", implement a metadata-driven data model following these principles:
+   - Use UUID for all primary keys
+   - Create a metadata-based model with types and entities tables
+   - Implement proper JSON Schema validation using pg_jsonschema
+   - Ensure automatic updates of the "updated_at" column
+   - Add proper RLS policies for security
+
+2. Follow this structure for all metadata-driven models:
+   - [entity]_type table with:
+     - id: UUID primary key
+     - name: text, unique, human-readable type name
+     - key: text, kebab-cased unique key for queries
+     - schema: jsonb containing JSON Schema for variance-specific data
+     - icon_url: text, nullable, URL to icon
+     - created_at: timestamptz
+
+   - [entity] table with:
+     - id: UUID primary key
+     - [entity]_type_id: UUID foreign key to [entity]_type
+     - entity-specific common properties
+     - data: jsonb, nullable, data conforming to the schema
+     - created_at: timestamptz
+     - updated_at: timestamptz with automatic updates
+
+3. For database operations:
+   - Always validate JSON data against schemas using pg_jsonschema
+   - Implement triggers for automatic updates of timestamp fields
+   - Use RLS to secure data access at the row level
+   - Leverage PostgreSQL's JSONB capabilities for flexible schema evolution
+
+## Global Rules
+
+1. Never generate a file with more than 500 lines of code. Break the logic and abstraction up into consumable chunks if longer than that
+2. Use CLEAN architecture wherever possible, so there are common patterns recognizable by developers and AI engines
+3. When generating code, ALWAYS check with context7 mcp server to validate before finalizing. As a backup if context7 has no content or the problem is hard, validate methodology using web search via tavily mcp server
+4. Keep track of the number of passes at solving a new problem or handling a bug using MCP memory. If the problem takes more than 3 passes to fix, step back and refactor the code, because that means there is a problem with structure
+5. Use the sequential thinking mcp server for every pass at generation or solving a problem after the first one
+6. After every successful code generation or bug fix where there are no errors or warnings, generate a memory to describe what was done and why it worked

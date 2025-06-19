@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Debug</title>
+    <style>
+        /* Test CSS variables */
+        .debug-vars {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        /* Test opacity syntax */
+        .debug-opacity {
+            background: hsl(var(--primary) / 0.1);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        /* Test grid pattern */
+        .debug-grid {
+            background-image: radial-gradient(circle, hsl(var(--muted-foreground) / 0.15) 1px, transparent 1px);
+            background-size: 20px 20px;
+            height: 100px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Style Debug Test</h1>
+    
+    <div class="debug-vars">
+        CSS Variables Test - Should have primary background
+    </div>
+    
+    <div class="debug-opacity">
+        Opacity Syntax Test - Should have light primary background
+    </div>
+    
+    <div class="debug-grid">
+        Grid Pattern Test - Should show dot pattern
+    </div>
+    
+    <script>
+        // Log CSS variable values
+        const root = document.documentElement;
+        const computedStyle = getComputedStyle(root);
+        
+        console.log('CSS Variables Debug:');
+        console.log('--primary:', computedStyle.getPropertyValue('--primary'));
+        console.log('--background:', computedStyle.getPropertyValue('--background'));
+        console.log('--muted-foreground:', computedStyle.getPropertyValue('--muted-foreground'));
+        
+        // Test if Tailwind classes are working
+        const testDiv = document.createElement('div');
+        testDiv.className = 'bg-primary text-primary-foreground p-4 container mx-auto';
+        testDiv.textContent = 'Tailwind Classes Test';
+        document.body.appendChild(testDiv);
+        
+        // Log computed styles
+        setTimeout(() => {
+            const testStyle = getComputedStyle(testDiv);
+            console.log('Tailwind Classes Debug:');
+            console.log('background-color:', testStyle.backgroundColor);
+            console.log('color:', testStyle.color);
+            console.log('padding:', testStyle.padding);
+            console.log('margin:', testStyle.margin);
+            console.log('max-width:', testStyle.maxWidth);
+        }, 100);
+    </script>
+</body>
+</html>
